@@ -9,18 +9,22 @@ const Header = (props) => {
     )
 }
 
-const Content = (props) => {
+const Part = (props) => {
     return (
         <>
             <p>
-                {props.p1} {props.e1}
+                {props.p} {props.e}
             </p>
-            <p>
-                {props.p2} {props.e2}
-            </p>
-            <p>
-                {props.p3} {props.e3}
-            </p>
+        </>
+    )
+}
+
+const Content = (props) => {
+    return (
+        <>
+            <Part p={props.parts[0].name} e={props.parts[0].exercises} />
+            <Part p={props.parts[1].name} e={props.parts[1].exercises} />
+            <Part p={props.parts[2].name} e={props.parts[2].exercises} />
         </>
     )
 }
@@ -28,29 +32,38 @@ const Content = (props) => {
 const Total = (props) => {
     return (
         <>
-            <p>Yhteensä {props.e1 + props.e2 + props.e3} tehtävää</p>
+            <p>Yhteensä {props.parts[0].exercises + props.parts[1].exercises
+                + props.parts[2].exercises} tehtävää</p>
         </>
     )
 }
 
 const App = () => {
-    const course = 'Half Stack -sovelluskehitys'
-    const part1 = 'Reactin perusteet'
-    const exercises1 = 10
-    const part2 = 'Tiedonvälitys propseilla'
-    const exercises2 = 7
-    const part3 = 'Komponenttien tila'
-    const exercises3 = 14
+    const course = {
+        name: 'Half Stack -sovelluskehitys',
+        parts: [
+            {
+                name: 'Reactin perusteet',
+                exercises: 10
+            },
+            {
+                name: 'Tiedonvälitys propseilla',
+                exercises: 7
+            },
+            {
+                name: 'Komponenttien tila',
+                exercises: 14
+            }
+        ]
+    }
 
     return (
         <div>
-            <Header course={course} />
-            <Content p1={part1} e1={exercises1} p2={part2} e2={exercises2}
-            p3={part3} e3={exercises3} />
-            <Total e1={exercises1} e2={exercises2} e3={exercises3} />
+            <Header course={course.name} />
+            <Content parts={course.parts} />
+            <Total parts={course.parts} />
         </div>
     )
-    
 }
 ReactDOM.render(<App />, document.getElementById('root'));
 

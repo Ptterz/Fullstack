@@ -54,7 +54,8 @@ const App = () => {
                 })
                 .catch(error => {
                     setNotification({
-                        content: `${personObject.name} päivitys epäonnistui`,
+                        //content: `${personObject.name} päivitys epäonnistui`,
+                        content: `${error.response.data.error}`,
                         type: 'error'
                     })
                     setTimeout(() => {
@@ -85,7 +86,8 @@ const App = () => {
             })
             .catch(error => {
                 setNotification({
-                    content: `${newPerson.name} lisäys epäonnistui`,
+                    //content: `${newPerson.name} lisäys epäonnistui`,
+                    content: `${error.response.data.error}`,
                     type: 'error'
                 })
                 setTimeout(() => {
@@ -121,7 +123,8 @@ const App = () => {
                 .catch(error => {
                     setPersons(persons.filter(p => person.id !== p.id))
                     setNotification({
-                        content: `${person.name} on jo poistettu`,
+                        //content: `${person.name} on jo poistettu`,
+                        content: `${error.response.data.error}`,
                         type: 'error'
                     })
                     setTimeout(() => {

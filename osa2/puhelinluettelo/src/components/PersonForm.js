@@ -12,7 +12,7 @@ const PersonForm = ({ addNewPerson, updateNewName, updateNewNumber, newName, new
         <div>
             numero:
             <input
-                number={newNumber}
+                value={newNumber}
                 onChange={updateNewNumber}
             />
         </div>

@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlB0dGVyeiIsImlkIjoiNWQwMjBhODNiZjBlOTMwZjZjNTEzYjg3IiwiaWF0IjoxNTYwNTAyNTE3fQ.6vYwjnxPMB1k0Yd1UaQm3isJy3u4gtZH08osE5ysvP0
 
 {
-    "title": "My blog",
+    "title": "My new blogg",
     "author": "Pete",
-    "url": "MySpace",
-    "likes": 3
+    "url": "Fandom",
+    "likes": 3000
 }

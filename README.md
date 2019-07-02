@@ -1,3 +1,4 @@
-# Fullstack 2019
+# Full Stack web development (AYTKT21009)
 
-Tämä on Fullstack-kurssia varten tehty repositorio, jonne kurssilla tehdyt tehtävät ja sovellukset palautetaan.
+This repository is part of a course in Computer Science. 
+It consists of exercises done during the course. 

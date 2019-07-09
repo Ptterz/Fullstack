@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useField, useResource } from './hooks/index'
+import { useField } from './hooks/index'
 import loginService from './services/login'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import blogService from './services/blogs'
 
-function App() {
-  // const [blogs, setBlogs] = useState([])
+const App = () => {
+  const [blogs, setBlogs] = useState([])
   const username = useField('text')
   const password = useField('password')
   const [user, setUser] = useState(null)
@@ -16,13 +17,19 @@ function App() {
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
-  const [blogs, blogService] = useResource('/api/blogs')
+  //const [blogs, blogService] = useResource('/api/blogs')
   const blogFormRef = React.createRef()
+
+  // useEffect(() => {
+  //   blogService
+  //     .getAll()
+  //     .then(initialBlogs => blogService.setResources(initialBlogs))
+  // }, [])
 
   useEffect(() => {
     blogService
       .getAll()
-      .then(initialBlogs => blogService.setResources(initialBlogs))
+      .then(initialBlogs => setBlogs(initialBlogs))
   }, [])
 
   useEffect(() => {
@@ -68,7 +75,8 @@ function App() {
       setTimeout(() => {
         setNotification(null)
       }, 5000)
-      blogService.setResources(blogs.concat(responseBlog))
+      // blogService.setResources(blogs.concat(responseBlog))
+      setBlogs(blogs.concat(responseBlog))
       title.reset()
       author.reset()
       url.reset()
@@ -104,7 +112,8 @@ function App() {
     if (window.confirm(`Remove the blog ${foundBlog.title} by ${foundBlog.author}?`)) {
       try {
         await blogService.deletion(id)
-        blogService.setResources(blogs.filter(blog => blog.id !== id))
+        // blogService.setResources(blogs.filter(blog => blog.id !== id))
+        setBlogs(blogs.filter(blog => blog.id !== id))
         setNotification({
           type: 'notification',
           content: `The blog ${foundBlog.title} by ${foundBlog.author} has been removed successfully!`

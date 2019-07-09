@@ -22,10 +22,6 @@ module.exports = {
     ],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
-        "indent": [
-            "error",
-            2
-        ],
         "linebreak-style": [
             "error",
             "unix"

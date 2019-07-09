@@ -26,7 +26,7 @@ export const useResource = (baseUrl) => {
     let token = null
 
     const setToken = newToken => {
-        token = `bearer ${newToken}`
+        token = `Bearer ${newToken}`
     }
 
     const getAll = () => {

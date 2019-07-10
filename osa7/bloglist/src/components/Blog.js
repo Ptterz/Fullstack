@@ -15,7 +15,7 @@ const Blog = (props) => {
 
   const checkCreds = () => {
     if (props.blog.user && props.blog.user.username === props.user.user) {
-      return <button onClick={() => props.removeBlog(props.blog.id)}>remove</button>
+      return <button onClick={() => props.blogRemoval(props.blog.id)}>remove</button>
     }
     return null
   }
@@ -37,7 +37,7 @@ const Blog = (props) => {
         {props.blog.url}
       </a>
       <div>
-        {props.blog.likes} likes <button onClick={() => props.increaseLikes(props.blog.id)}>like</button>
+        {props.blog.likes} likes <button onClick={() => props.increaseLikes(props.blog)}>like</button>
       </div>
       <div>
         added by {props.blog.user.name}
@@ -48,7 +48,7 @@ const Blog = (props) => {
 }
 
 Blog.propTypes = {
-  removeBlog: PropTypes.func.isRequired,
+  blogRemoval: PropTypes.func.isRequired,
   increaseLikes: PropTypes.func.isRequired
 }
 

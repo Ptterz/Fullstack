@@ -5,7 +5,6 @@ module.exports = {
         "jest/globals": true
     },
     "extends": [ 
-        "plugin:prettier/recommended",
         "eslint:recommended",
         "plugin:react/recommended"
     ],
@@ -23,7 +22,6 @@ module.exports = {
     ],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
-        "prettier": true,
         "linebreak-style": [
             "error",
             "unix"

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/api/blogs'
+const baseUrl = `${BACKEND_URL}/api/blogs`
 
 let token = null
 
@@ -20,6 +20,11 @@ const create = async newObject => {
   return response.data
 }
 
+const createComment = async (blog, comment) => {
+  const response = await axios.post(`${baseUrl}/${blog.id}/comments`, comment)
+  return response.data
+}
+
 const update = async requestBlog => {
   const response = await axios.put(`${baseUrl}/${requestBlog.id}`, requestBlog)
   return response.data
@@ -33,4 +38,4 @@ const deletion = async id => {
   return response.data
 }
 
-export default { setToken, getAll, create, update, deletion }
+export default { setToken, getAll, create, createComment, update, deletion }

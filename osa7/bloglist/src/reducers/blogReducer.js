@@ -1,35 +1,80 @@
 import blogService from '../services/blogs'
+import { setNotification } from '../reducers/notificationReducer'
 
 export const addBlog = blog => {
     return async dispatch => {
-        const response = await blogService.create(blog)
-        dispatch({
-            type: 'ADD_BLOG',
-            blog: response
-        })
+        blogService.create(blog)
+            .then(response => {
+                dispatch({
+                    type: 'ADD_BLOG',
+                    blog: response
+                })
+            })
+            .catch(error => {
+                const data = {
+                    type: 'error',
+                    content: `${error.response.data.error}`
+                }
+                dispatch(setNotification(data, 5000))
+            })
+    }
+}
+
+export const addComment = (blog, comment) => {
+    return async dispatch => {
+        blogService.createComment(blog, comment)
+            .then(response => {
+                dispatch({
+                    type: 'UPDATE_BLOG',
+                    blog: response
+                })
+            })
+            .catch(error => {
+                const data = {
+                    type: 'error',
+                    content: `${error.response.data.error}`
+                }
+                dispatch(setNotification(data, 5000))
+            })
     }
 }
 
 export const likeBlog = (blog) => {
     return async dispatch => {
-        const updated = await blogService.update({
+        blogService.update({
             ...blog,
             likes: blog.likes + 1
         })
-        dispatch({
-            type: 'LIKE_BLOG',
-            blog: updated
-        })
+            .then(response => {
+                dispatch({
+                    type: 'UPDATE_BLOG',
+                    blog: response
+                })
+            })
+            .catch(error => {
+                const data = {
+                    type: 'error',
+                    content: `${error.response.data.error}`
+                }
+                dispatch(setNotification(data, 5000))
+            })
     }
 }
 
 export const removeBlog = id => {
     return async dispatch => {
-        await blogService.deletion(id)
-        dispatch({
-            type: 'REMOVE_BLOG',
-            id
-        })
+        blogService.deletion(id)
+            .then(dispatch({
+                type: 'REMOVE_BLOG',
+                id
+            }))
+            .catch(error => {
+                const data = {
+                    type: 'error',
+                    content: `${error.response.data.error}`
+                }
+                dispatch(setNotification(data, 5000))
+            })
     }
 }
 
@@ -49,7 +94,7 @@ const blogReducer = (state = [], action) => {
             return action.blogs
         case 'ADD_BLOG':
             return state.concat(action.blog)
-        case 'LIKE_BLOG':
+        case 'UPDATE_BLOG':
             state = state.map(b => b.id !== action.blog.id ? b : action.blog)
             return state
         case 'REMOVE_BLOG':

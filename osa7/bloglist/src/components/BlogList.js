@@ -1,66 +1,46 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Blog from './Blog'
-import { likeBlog, removeBlog } from '../reducers/blogReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import {
+  BrowserRouter as Router,
+  Route, Link, Redirect, withRouter
+} from 'react-router-dom'
+import Table from 'react-bootstrap/Table'
 
 const BlogList = (props) => {
   const sortedBlogs = props.blogs.sort((bA, bB) => bB.likes - bA.likes)
 
-  const increaseLikes = (blog) => {
-    try {
-      props.likeBlog(blog)
-      const data = {
-        type: 'notification',
-        content: `Your like for the blog '${blog.title}' by '${blog.author}' has beed registered!`
-      }
-      props.setNotification(data, 5000)
-    } catch (error) {
-      const data = {
-        type: 'error',
-        content: `${error.response.data.error}`
-      }
-      props.setNotification(data, 5000)
-    }
-  }
-
-  const blogRemoval = id => {
-    const foundBlog = props.blogs.find(b => b.id === id)
-    if (window.confirm(`Remove the blog ${foundBlog.title} by ${foundBlog.author}?`)) {
-      try {
-        props.removeBlog(id)
-        const data = {
-          type: 'notification',
-          content: `The blog '${foundBlog.title}' by '${foundBlog.author}' has been removed successfully!`
-        }
-        props.setNotification(data, 5000)
-      } catch (error) {
-        const data = {
-          type: 'error',
-          content: `${error.response.data.error}`
-        }
-        props.setNotification(data, 5000)
-      }
-    }
-  }
-
   return (
-    sortedBlogs.map(blog =>
-      <Blog key={blog.id} blog={blog} user={props.user} increaseLikes={increaseLikes} blogRemoval={blogRemoval} />
-    )
+    <div>
+      <h2>Welcome to blogs</h2>
+      <Table striped>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedBlogs.map(blog =>
+            <tr key={blog.id}>
+              <td>
+                <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+              </td>
+              <td>
+                {blog.author}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+    </div>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
-    blogs: state.blogs
+    blogs: state.blogs,
+    user: state.user
   }
 }
 
-const mapDispatchToProps = {
-  likeBlog,
-  removeBlog,
-  setNotification
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BlogList)
+export default connect(mapStateToProps)(BlogList)

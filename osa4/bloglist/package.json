@@ -19,7 +19,7 @@
     "watch": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "lint": "eslint .",
-    "build:ui": "rm -rf build && cd ../../osa7/bloglist && npm run build && cp -r build ../../osa4/bloglist",
+    "build:ui": "rm -rf build && cd ../Fullstack/osa7/bloglist && npm run build && cp -r build ../../../Fullstack-bloglist",
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy"
   },

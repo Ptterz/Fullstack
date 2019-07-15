@@ -3,8 +3,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlB0dGVyeiIsImlkIjoiNWQwMjBhODNiZjBlOTMwZjZjNTEzYjg3IiwiaWF0IjoxNTYwNTAyNTE3fQ.6vYwjnxPMB1k0Yd1UaQm3isJy3u4gtZH08osE5ysvP0
 
 {
-    "title": "My new blogg",
-    "author": "Pete",
-    "url": "Fandom",
+    "title": "Testing testing",
+    "author": "Do you hear me?",
+    "url": "none",
     "likes": 3000
 }

@@ -26,7 +26,7 @@ const Navigation = (props) => {
                         <Nav.Link href="#loggedIn" as="span">
                             {props.user.name} logged in.
                         </Nav.Link>
-                        <Nav.Link href="#logoutButton" as="span" onSelect={props.logout}>
+                        <Nav.Link href="#logoutButton" as="span" onSelect={props.logout} data-cy='logoutButton'>
                             logout
                         </Nav.Link>
                     </Nav>

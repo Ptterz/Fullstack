@@ -31,14 +31,14 @@ const LoginForm = (props) => {
     <Form onSubmit={handleLogin}>
       <Form.Group controlId='usernameInput'>
         <Form.Label>Username:</Form.Label>
-        <Form.Control type='text' name='username' placeholder='Enter username' />
+        <Form.Control type='text' name='username' placeholder='Enter username' data-cy='usernameLogin' />
       </Form.Group>
       <Form.Group controlId='passwordInput'>
         <Form.Label>Password:</Form.Label>
-        <Form.Control type='password' name='password' placeholder='Enter password' />
+        <Form.Control type='password' name='password' placeholder='Enter password' data-cy='passwordLogin' />
       </Form.Group>
       <Form.Group>
-        <Button variant='primary' type="submit" style={{ marginRight: 5 }}>
+        <Button variant='primary' type="submit" style={{ marginRight: 5 }} data-cy='loginButton' >
           Login
         </Button>
       </Form.Group>

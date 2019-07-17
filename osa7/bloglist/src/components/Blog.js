@@ -33,7 +33,7 @@ const Blog = (props) => {
 
   const checkCreds = () => {
     if (props.blog.user && props.blog.user.username === props.user.user) {
-      return <Button onClick={() => blogRemoval(props.blog.id)}>remove</Button>
+      return <Button onClick={() => blogRemoval(props.blog.id)} data-cy='blogRemovalButton'>remove</Button>
     }
     return null
   }

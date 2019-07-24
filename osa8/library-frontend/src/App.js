@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Query, ApolloConsumer, Mutation } from 'react-apollo'
+import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK } from './requests/queries'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
@@ -14,18 +16,32 @@ const App = () => {
         <button onClick={() => setPage('add')}>add book</button>
       </div>
 
-      <Authors
-        show={page === 'authors'}
-      />
+      <Query query={ALL_AUTHORS}>
+        {(result) =>
+          <Authors
+            result={result}
+            show={page === 'authors'}
+          />
+        }
+      </Query>
 
-      <Books
-        show={page === 'books'}
-      />
+      <Query query={ALL_BOOKS}>
+        {(result) =>
+          <Books
+            result={result}
+            show={page === 'books'}
+          />
+        }
+      </Query>
 
-      <NewBook
-        show={page === 'add'}
-      />
-
+      <Mutation mutation={CREATE_BOOK}>
+        {(addBook) =>
+          <NewBook
+            addBook={addBook}
+            show={page === 'add'}
+          />
+        }
+      </Mutation>
     </div>
   )
 }

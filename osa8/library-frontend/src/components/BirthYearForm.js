@@ -4,7 +4,7 @@ import { ALL_AUTHORS } from '../requests/queries'
 const BirthYearForm = (props) => {
     const [name, setName] = useState('')
     const [year, setYear] = useState('')
-    const [selected, setSelected] = useState('')
+    const [selected, setSelected] = useState('none')
     const [authors, setAuthors] = useState(null)
 
     if (!props.show) {
@@ -32,6 +32,13 @@ const BirthYearForm = (props) => {
         setYear('')
     }
 
+    const getAuthors = () => {
+        if (authors === null) {
+            return null
+        }
+        return authors.map(a => <option key={a.name}>{a.name}</option>)
+    }
+
     return (
         <div>
             <h2>Set birthyear</h2>
@@ -40,7 +47,7 @@ const BirthYearForm = (props) => {
                     Select author
                     <select value={selected} onChange={handleChange}>
                         <option>none</option>
-                        <option>other</option>
+                        {getAuthors()}
                     </select>
                 </label>
                 <div>

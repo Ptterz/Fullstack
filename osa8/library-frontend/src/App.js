@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Query, ApolloConsumer, Mutation } from 'react-apollo'
-import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK } from './requests/queries'
+import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK, EDIT_AUTHOR } from './requests/queries'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
+import BirthYearForm from './components/BirthYearForm'
 
-const App = () => {
+const App = (props) => {
   const [page, setPage] = useState('authors')
 
   return (
@@ -38,10 +39,26 @@ const App = () => {
         {(addBook) =>
           <NewBook
             addBook={addBook}
+            refetchQueries={[{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]}
             show={page === 'add'}
           />
         }
       </Mutation>
+
+      <ApolloConsumer>
+        {(client =>
+          <Mutation mutation={EDIT_AUTHOR}>
+            {(editAuthor) =>
+              <BirthYearForm
+                client={client}
+                editAuthor={editAuthor}
+                refetchQueries={[{ query: ALL_AUTHORS }]}
+                show={page === 'authors'}
+              />
+            }
+          </Mutation>
+        )}
+      </ApolloConsumer>
     </div>
   )
 }

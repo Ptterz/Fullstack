@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const Authors = (props) => {
+  const [authors, setAuthors] = useState([])
+
   if (!props.show) {
     return null
   }
@@ -13,6 +15,9 @@ const Authors = (props) => {
       </div>
     )
   }
+
+  setAuthors(authors.concat(props.result.data.allAuthors))
+  console.log(authors)
 
   return (
     <div>
@@ -28,7 +33,7 @@ const Authors = (props) => {
               books
             </th>
           </tr>
-          {props.result.data.allAuthors.map(a =>
+          {authors.map(a =>
             <tr key={a.name}>
               <td>{a.name}</td>
               <td>{a.born}</td>

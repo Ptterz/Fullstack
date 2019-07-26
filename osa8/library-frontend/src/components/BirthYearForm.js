@@ -5,17 +5,17 @@ const BirthYearForm = (props) => {
     const [name, setName] = useState('')
     const [year, setYear] = useState('')
     const [selected, setSelected] = useState('none')
-    const [authors, setAuthors] = useState(null)
-
-    if (!props.show) {
-        return null
-    }
+    const [authors, setAuthors] = useState([])
 
     useEffect(() => {
         props.client.query({
             query: ALL_AUTHORS
-        }).then(data => setAuthors(data.allAuthors))
+        }).then(response => setAuthors(authors.concat(response.data.allAuthors)))
     }, [])
+
+    if (!props.show) {
+        return null
+    }
 
     const handleChange = (event) => {
         setSelected(event.target.value)
@@ -30,10 +30,11 @@ const BirthYearForm = (props) => {
 
         setName('')
         setYear('')
+        setSelected('none')
     }
 
     const getAuthors = () => {
-        if (authors === null) {
+        if (authors.length === 0 || authors === undefined) {
             return null
         }
         return authors.map(a => <option key={a.name}>{a.name}</option>)

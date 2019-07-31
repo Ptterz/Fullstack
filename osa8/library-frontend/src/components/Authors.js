@@ -3,11 +3,15 @@ import React, { useState, useEffect } from 'react'
 const Authors = (props) => {
   const [authors, setAuthors] = useState([])
 
+  useEffect(() => {
+    setAuthors(props.result.data.allAuthors)
+  }, [props.result.loading])
+
   if (!props.show) {
     return null
   }
 
-  if (props.result.loading) {
+  if (props.result.loading || authors === undefined || authors.length === 0) {
     return (
       <div>
         <h2>Authors</h2>
@@ -15,9 +19,6 @@ const Authors = (props) => {
       </div>
     )
   }
-
-  setAuthors(authors.concat(props.result.data.allAuthors))
-  console.log(authors)
 
   return (
     <div>

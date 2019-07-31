@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost'
 
 export const ALL_AUTHORS = gql`
-{
+query allAuthors {
   allAuthors  {
     name
     born
@@ -14,8 +14,22 @@ export const ALL_BOOKS = gql`
 query allBooks($author: String, $genre: String) {
   allBooks(author: $author, genre: $genre) {
     title
-    author
+    author {
+      name
+      born
+      bookCount
+    }
     published
+    genres
+  }
+}
+`
+
+export const ME = gql`
+query me {
+  me {
+    username
+    favoriteGenre
   }
 }
 `
@@ -29,7 +43,11 @@ mutation createBook($title: String!, $author: String!, $published: Int!, $genres
     genres: $genres
   ) {
     title,
-    author,
+    author {
+      name
+      born
+      bookCount
+    },
     published
   }
 }
@@ -37,13 +55,27 @@ mutation createBook($title: String!, $author: String!, $published: Int!, $genres
 
 export const EDIT_AUTHOR = gql`
 mutation editAuthor($name: String!, $setBornTo: Int!) {
-  editAuthor(
-    name: $name,
-    setBornTo: $setBornTo
-  ) {
+  editAuthor(name: $name, setBornTo: $setBornTo) {
     name
     born
     bookCount
   }
 }
+`
+
+export const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password)  {
+      value
+    }
+  }
+`
+
+export const CREATE_USER = gql`
+  mutation createUser($username: String!, $favoriteGenre: String!) {
+    createUser(username: $username, favoriteGenre: $favoriteGenre) {
+      username
+      favoriteGenre
+    }
+  }
 `

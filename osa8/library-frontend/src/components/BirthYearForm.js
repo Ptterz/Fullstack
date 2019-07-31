@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { ALL_AUTHORS } from '../requests/queries'
 
 const BirthYearForm = (props) => {
-    const [name, setName] = useState('')
     const [year, setYear] = useState('')
     const [selected, setSelected] = useState('none')
     const [authors, setAuthors] = useState([])
@@ -25,10 +24,9 @@ const BirthYearForm = (props) => {
         event.preventDefault()
 
         await props.editAuthor({
-            variables: { name, setBornTo: Number(year) }
+            variables: { name: selected, setBornTo: Number(year) }
         })
 
-        setName('')
         setYear('')
         setSelected('none')
     }
@@ -47,7 +45,7 @@ const BirthYearForm = (props) => {
                 <label>
                     Select author
                     <select value={selected} onChange={handleChange}>
-                        <option>none</option>
+                        <option key={'none'}>none</option>
                         {getAuthors()}
                     </select>
                 </label>

@@ -25,6 +25,7 @@ const typeDefs = gql`
     id: ID!
     name: String!
     born: Int
+    books: [String!]
     bookCount: Int
   }
 
@@ -83,7 +84,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    bookCount: () => Book.collection.countDocuments(),
+    bookCount: (root, args) => root.books.length,
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
       if (!args.author && !args.genre) {
@@ -121,11 +122,14 @@ const resolvers = {
         if (result.length === 0) {
           author = new Author({ name: args.author })
           book = new Book({ ...args, author })
+          author.books = author.books.concat(book._id)
           await author.save()
           await book.save()
         } else {
           author = new Author(result[0])
           book = new Book({ ...args, author })
+          author.books = author.books.concat(book._id)
+          console.log(author)
           await book.save()
         }
         pubsub.publish('BOOK_ADDED', { bookAdded: book })

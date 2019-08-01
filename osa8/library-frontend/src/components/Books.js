@@ -1,7 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { ALL_BOOKS } from '../requests/queries';
 
 const Books = (props) => {
   const [genreFilter, setGenreFilter] = useState(null)
+  const [filteredBooks, setFilteredBooks] = useState([])
+
+  useEffect(() => {
+    const fetchFilteredBooks = async () => {
+      const books = await props.client.query({
+        query: ALL_BOOKS,
+        variables: { genre: genreFilter },
+        fetchPolicy: 'no-cache'
+      })
+      setFilteredBooks(books.data.allBooks)
+    }
+    fetchFilteredBooks()
+  }, [genreFilter])
 
   if (!props.show) {
     return null
@@ -24,22 +38,13 @@ const Books = (props) => {
   }
 
   const getBooks = () => {
+    let booksToRender = props.result.data.allBooks
     if (genreFilter) {
-      return (
-        props.result.data.allBooks
-          .filter(a => a.genres.includes(genreFilter))
-          .map(a =>
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author.name}</td>
-              <td>{a.published}</td>
-            </tr>
-          )
-      )
+      booksToRender = filteredBooks
     }
 
     return (
-      props.result.data.allBooks.map(a =>
+      booksToRender.map(a =>
         <tr key={a.title}>
           <td>{a.title}</td>
           <td>{a.author.name}</td>

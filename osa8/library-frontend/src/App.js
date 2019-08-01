@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Query, ApolloConsumer, Mutation } from 'react-apollo'
-import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK, EDIT_AUTHOR, LOGIN } from './requests/queries'
+import { Query, ApolloConsumer, Mutation, Subscription } from 'react-apollo'
+import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK, EDIT_AUTHOR, LOGIN, BOOK_ADDED } from './requests/queries'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
@@ -30,6 +30,10 @@ const App = (props) => {
       return { display: 'none' }
     }
     return { display: '' }
+  }
+
+  const includedIn = (set, object) => {
+    set.map(b => b.id).includes(object.id)
   }
 
   return (
@@ -64,14 +68,20 @@ const App = (props) => {
         }
       </Query>
 
-      <Query query={ALL_BOOKS}>
-        {(result) =>
-          <Books
-            result={result}
-            show={page === 'books'}
-          />
-        }
-      </Query>
+      <ApolloConsumer>
+        {(client =>
+          <Query query={ALL_BOOKS}>
+            {(result) =>
+              <Books
+                result={result}
+                client={client}
+                show={page === 'books'}
+              />
+            }
+          </Query>
+        )}
+      </ApolloConsumer>
+
 
       <Mutation mutation={CREATE_BOOK}>
         {(addBook) =>
@@ -120,6 +130,26 @@ const App = (props) => {
             client={client}
             token={token}
             show={page === 'recommend'}
+          />
+        )}
+      </ApolloConsumer>
+
+      <ApolloConsumer>
+        {(client =>
+          <Subscription
+            subscription={BOOK_ADDED}
+            onSubscriptionData={({ subscriptionData }) => {
+              const addedBook = subscriptionData.data.bookAdded
+              const dataInStore = client.readQuery({ query: ALL_BOOKS })
+              if (!includedIn(dataInStore.allBooks, addedBook)) {
+                dataInStore.allBooks.push(addedBook)
+                client.writeQuery({
+                  query: ALL_BOOKS,
+                  data: dataInStore
+                })
+                window.alert('New book has been added!')
+              }
+            }}
           />
         )}
       </ApolloConsumer>
